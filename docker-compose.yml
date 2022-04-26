@@ -48,6 +48,7 @@ services:
 
     web:
         container_name: posthog_web
+        restart: 'no'
         depends_on:
             - db
             - redis
@@ -56,12 +57,14 @@ services:
         environment:
             DATABASE_URL: postgres://posthog:posthog@db:5432/posthog
             REDIS_URL: redis://redis:6379/
+            KAFKA_HOSTS: 'kafka:9092'
             KAFKA_URL: 'kafka://kafka'
-            CLICKHOUSE_HOST: 'clickhouse'
+            CLICKHOUSE_HOST: 'host.docker.internal'
             CLICKHOUSE_DATABASE: 'posthog'
             CLICKHOUSE_SECURE: 'false'
             CLICKHOUSE_VERIFY: 'false'
-            SECRET_KEY: <randomly generated secret key>
+            DISABLE_SECURE_SSL_REDIRECT: 'true'
+            SECRET_KEY: 7029cb4dd0677dc3aa7c56206081efb9d2664d86ce8160d1a414a8ec1fae9ef0
             PGHOST: db
             PGUSER: posthog
             PGPASSWORD: posthog
